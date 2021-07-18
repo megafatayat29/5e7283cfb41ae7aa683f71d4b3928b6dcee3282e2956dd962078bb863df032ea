@@ -1,8 +1,19 @@
 <?php
-$conn = mysqli_connect("localhost","root","","tes_mkm");
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "tes_mkm";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
 function get_children($name) {
 	global $conn;
-	
+	$resultjson = array();
+
 	$sql = "SELECT id, name, parent_id FROM member where name = '$name'";
 	$result = $conn->query($sql);
 
@@ -24,8 +35,9 @@ function get_children($name) {
 	}
 }
 
-// $children = get_children('Samantha');
-// echo json_encode($children);
+$children = get_children('Samantha');
+echo json_encode($children);
+echo '<br>';
 /* akan menulis : ["James", "April", "Charles"] */
 $children = get_children('John');
 echo json_encode($children);
